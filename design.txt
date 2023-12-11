@@ -1,0 +1,18 @@
+-= TODO app =-
+
+Upon logging in, the user is presented with a login/registration page - requires email authentication, use JWT for session control
+When logged in, the user is presented with their tasks.
+A task includes:
+    Title - the title of the task
+    Description - the description of the task
+    Publish date - the publish date of the task
+    Expiration date - the expiration date of the task, OPTIONAL
+    Subtasks - a list of sub tasks, can be marked as completed, each task has at least 1, after marking all as completed, the task will be marked as completed
+
+Active tasks are always visible to the user, but they can view completed tasks if they wish to
+
+The user can also define an auto-refreshing task - will be published every specified period of time
+
+
+-= Notes =-
+- I want to try redis for fast storage
