@@ -9,5 +9,7 @@ public class AutoMapperProfile : Profile {
         CreateMap<CreateUserTask, UserTask>();
 
         CreateMap<User, GetUser>();
+
+        CreateMap<Subtask, GetSubtask>();
     }
 }

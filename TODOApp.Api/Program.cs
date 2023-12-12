@@ -42,6 +42,7 @@ public class Program {
         // Add custom services
         builder.Services.AddScoped<IUserTasksService, UserTasksService>();
         builder.Services.AddScoped<IUsersService, UsersService>();
+        builder.Services.AddScoped<ISubtasksService, SubtasksService>();
 
         var app = builder.Build();
 

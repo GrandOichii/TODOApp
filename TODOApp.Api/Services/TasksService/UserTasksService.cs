@@ -13,7 +13,10 @@ public class UserTasksService : IUserTasksService {
 
     public async Task<IEnumerable<GetUserTask>> All(string username) {
         var user = await (
-            _ctx.Users.Include(u => u.Tasks).ThenInclude(task => task.Subtasks).FirstAsync(u => u.Username == username)
+            _ctx.Users
+                .Include(u => u.Tasks)
+                .ThenInclude(task => task.Subtasks)
+                .FirstAsync(u => u.Username == username)
         );
         return user.Tasks.Select(task => _mapper.Map<GetUserTask>(task));
     }

@@ -14,16 +14,34 @@ public class SubtasksService : ISubtasksService
         _mapper = mapper;
     }
 
-    public async Task<GetUserTask> AddToTask(CreateSubtask newSubtask, int taskId)
+    public async Task<GetUserTask> AddToTask(CreateSubtask newSubtask, string username)
     {
-        var task = await _ctx.UserTasks.FirstOrDefaultAsync(task => task.ID == taskId)
-            ?? throw new TODOAPPApiBaseException("Task with ID " + taskId + " doesn't exist");
+        var taskId = newSubtask.TaskID;
+        var user = _ctx.Users.Include(u => u.Tasks).First(u => u.Username == username);
+        var task = user.Tasks.FirstOrDefault(task => task.ID == taskId)
+            ?? throw new TODOAPPApiBaseException("User " + username + " doesn't own the task with ID " + taskId);
 
         var subtask = new Subtask {
             Title = newSubtask.Title
         };
 
         task.Subtasks.Add(subtask);
+        await _ctx.SaveChangesAsync();
+
+        return _mapper.Map<GetUserTask>(task);
+    }
+
+    public async Task<GetUserTask> SetCompleted(CompleteSubtask subtask, string username)
+    {
+        var taskId = subtask.TaskID;
+        var user = _ctx.Users.Include(u => u.Tasks).ThenInclude(task => task.Subtasks).First(u => u.Username == username);
+        var task = user.Tasks.FirstOrDefault(task => task.ID == taskId)
+            ?? throw new TODOAPPApiBaseException("User " + username + " doesn't own the task with ID " + taskId);
+
+        var sub = task.Subtasks.FirstOrDefault(s => s.ID == subtask.SubtaskID) 
+            ?? throw new TODOAPPApiBaseException("No subtask with ID " + subtask.SubtaskID);
+
+        sub.Completed = subtask.Completed;
         await _ctx.SaveChangesAsync();
 
         return _mapper.Map<GetUserTask>(task);
