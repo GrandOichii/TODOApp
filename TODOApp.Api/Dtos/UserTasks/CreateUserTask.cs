@@ -1,7 +1,6 @@
-namespace TODOApp.Api.Models;
+namespace TODOApp.Api.Dtos;
 
-public class UserTask {
-    public int ID { get; set; }
+public class CreateUserTask {
     public required string Title { get; set; }
     public required string Description { get; set; }
 }

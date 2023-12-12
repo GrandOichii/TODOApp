@@ -7,13 +7,21 @@ namespace TODOApp.Api.Controllers;
 [Route("/api/tasks")]
 public class UserTasksController : ControllerBase
 {
-    public UserTasksController()
+    IUserTasksService _userTasksService;
+    public UserTasksController(IUserTasksService userTasksService)
     {
+        _userTasksService = userTasksService;
     }
 
     [HttpGet]
     public async Task<IActionResult> Get()
     {
-        return Ok(Global.Instance.Tasks);
+        return Ok(await _userTasksService.All());
+    }
+
+    [HttpPost("create")]
+    public async Task<IActionResult> Create([FromBody] CreateUserTask newUserTask) {
+        // TODO invlove user
+        return Ok(await _userTasksService.Create(newUserTask));
     }
 }
