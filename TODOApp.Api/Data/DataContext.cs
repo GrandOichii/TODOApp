@@ -8,6 +8,7 @@ public class DataContext : DbContext {
     }
 
     public DbSet<UserTask> UserTasks => Set<UserTask>();
+    public DbSet<Subtask> Subtasks => Set<Subtask>();
     public DbSet<User> Users => Set<User>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
