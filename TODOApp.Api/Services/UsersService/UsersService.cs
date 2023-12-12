@@ -7,8 +7,8 @@ namespace TODOApp.Api.Services;
 public class UsersService : IUsersService
 {
     DataContext _ctx;
-    IMapper _mapper;
-    IConfiguration _config;
+    readonly IMapper _mapper;
+    readonly IConfiguration _config;
     
     public UsersService(DataContext ctx, IMapper mapper, IConfiguration config) {
         _ctx = ctx;

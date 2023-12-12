@@ -8,5 +8,5 @@ public class User {
     public required string PasswordHash { get; set; }
     // TODO add email - as hash?
 
-    public List<UserTask> Tasks { get; set; }
+    public List<UserTask> Tasks { get; set; } = new();
 }

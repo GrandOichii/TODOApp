@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,23 +9,25 @@ namespace TODOApp.Api.Controllers;
 [Route("/api/tasks")]
 public class UserTasksController : ControllerBase
 {
-    IUserTasksService _userTasksService;
+    readonly IUserTasksService _userTasksService;
     public UserTasksController(IUserTasksService userTasksService)
     {
         _userTasksService = userTasksService;
     }
 
     [HttpGet]
-    // [Authorize]
+    [Authorize]
     public async Task<IActionResult> Get()
     {
-        return Ok(await _userTasksService.All());
+        var username = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)!.Value;
+        return Ok(await _userTasksService.All(username));
     }
 
     [HttpPost("create")]
-    // [Authorize]
+    [Authorize]
     public async Task<IActionResult> Create([FromBody] CreateUserTask newUserTask) {
-        // TODO invlove user
-        return Ok(await _userTasksService.Create(newUserTask));
+        var username = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)!.Value;
+
+        return Ok(await _userTasksService.Create(newUserTask, username));
     }
 }

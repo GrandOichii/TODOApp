@@ -11,16 +11,21 @@ public class UserTasksService : IUserTasksService {
         _ctx = ctx;
     }
 
-    public async Task<IEnumerable<GetUserTask>> All() {
-        var userTasks = await _ctx.UserTasks.ToListAsync();
-        return userTasks.Select(task => _mapper.Map<GetUserTask>(task));
+    public async Task<IEnumerable<GetUserTask>> All(string username) {
+        var user = await (
+            _ctx.Users.Include(u => u.Tasks).FirstAsync(u => u.Username == username)
+        );
+        return user.Tasks.Select(task => _mapper.Map<GetUserTask>(task));
     }
 
-    public async Task<IEnumerable<GetUserTask>> Create(CreateUserTask newUserTask)
+    public async Task<IEnumerable<GetUserTask>> Create(CreateUserTask newUserTask, string username)
     {
+        var user = await _ctx.Users.FirstAsync(u => u.Username == username);
+
         var newTask = _mapper.Map<UserTask>(newUserTask);
-        await _ctx.UserTasks.AddAsync(newTask);
+        user.Tasks.Add(newTask);
+
         await _ctx.SaveChangesAsync();
-        return await All();
+        return await All(username);
     }
 }
