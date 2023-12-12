@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace TODOApp.Api.Controllers;
@@ -14,12 +15,14 @@ public class UserTasksController : ControllerBase
     }
 
     [HttpGet]
+    // [Authorize]
     public async Task<IActionResult> Get()
     {
         return Ok(await _userTasksService.All());
     }
 
     [HttpPost("create")]
+    // [Authorize]
     public async Task<IActionResult> Create([FromBody] CreateUserTask newUserTask) {
         // TODO invlove user
         return Ok(await _userTasksService.Create(newUserTask));

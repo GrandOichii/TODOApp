@@ -8,10 +8,12 @@ public class UsersService : IUsersService
 {
     DataContext _ctx;
     IMapper _mapper;
+    IConfiguration _config;
     
-    public UsersService(DataContext ctx, IMapper mapper) {
+    public UsersService(DataContext ctx, IMapper mapper, IConfiguration config) {
         _ctx = ctx;
         _mapper = mapper;
+        _config = config;
     }
 
     public async Task<string> Login(CreateUser user)
@@ -21,8 +23,8 @@ public class UsersService : IUsersService
 
         var correct = BCrypt.Net.BCrypt.Verify(user.Password, existingUser.PasswordHash);
         if (!correct) throw new TODOAPPApiBaseException("Incorrect username/password");
-        // TODO
-        return "jwt token here";
+
+        return AuthUtil.CreateToken(existingUser, _config.GetSection("AppSettings:Token").Value!);
     }
 
     public async Task<GetUser> Register(CreateUser newUser)
