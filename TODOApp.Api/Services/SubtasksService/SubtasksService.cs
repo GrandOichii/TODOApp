@@ -17,12 +17,13 @@ public class SubtasksService : ISubtasksService
     public async Task<GetUserTask> AddToTask(CreateSubtask newSubtask, string username)
     {
         var taskId = newSubtask.TaskID;
-        var user = _ctx.Users.Include(u => u.Tasks).First(u => u.Username == username);
+        var user = _ctx.Users.Include(u => u.Tasks).ThenInclude(st => st.Subtasks).First(u => u.Username == username);
         var task = user.Tasks.FirstOrDefault(task => task.ID == taskId)
             ?? throw new TODOAPPApiBaseException("User " + username + " doesn't own the task with ID " + taskId);
 
         var subtask = new Subtask {
-            Title = newSubtask.Title
+            Title = newSubtask.Title,
+            OwnerTask = task
         };
 
         task.Subtasks.Add(subtask);

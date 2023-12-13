@@ -4,4 +4,5 @@ public class Subtask {
     public int ID { get; set; }
     public required string Title { get; set; }
     public bool Completed { get; set; } = false;
+    public required UserTask OwnerTask { get; set; }
 }

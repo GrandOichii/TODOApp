@@ -31,4 +31,21 @@ public class UserTasksService : IUserTasksService {
         await _ctx.SaveChangesAsync();
         return await All(username);
     }
+
+    public async Task<IEnumerable<GetUserTask>> Remove(int id, string username)
+    {
+        var user = await _ctx.Users.Include(user => user.Tasks).FirstAsync(u => u.Username == username);
+
+        var task = user.Tasks.FirstOrDefault(t => t.ID == id)
+            ?? throw new TODOAPPApiBaseException("User " + username + " has no task with ID " + id);
+
+        foreach (var st in task.Subtasks) {
+            _ctx.Subtasks.Remove(st);
+        }
+        await _ctx.SaveChangesAsync();
+        _ctx.UserTasks.Remove(task);
+        await _ctx.SaveChangesAsync();
+
+        return await All(username);
+    }
 }

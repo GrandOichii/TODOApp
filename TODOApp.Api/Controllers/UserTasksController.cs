@@ -46,7 +46,7 @@ public class UserTasksController : ControllerBase
         }
     }
 
-    [HttpPatch]
+    [HttpPatch("subtask/setcompleted")]
     [Authorize]
     public async Task<IActionResult> SetCompleted([FromBody] CompleteSubtask subtask) {
         var username = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)!.Value;
@@ -54,6 +54,19 @@ public class UserTasksController : ControllerBase
         try {
             var result = await _subtasksService.SetCompleted(subtask, username);
             return Ok(result);
+        } catch (TODOAPPApiBaseException e) {
+            return BadRequest(e.Message);
+        }
+    }
+
+    [HttpDelete("/{id}")]
+    [Authorize]
+    public async Task<IActionResult> Remove(int id) {
+        var username = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)!.Value;
+
+        try {
+            var tasks = await _userTasksService.Remove(id, username);
+            return Ok(tasks);
         } catch (TODOAPPApiBaseException e) {
             return BadRequest(e.Message);
         }
