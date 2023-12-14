@@ -59,7 +59,7 @@ public class UserTasksController : ControllerBase
         }
     }
 
-    [HttpDelete("/{id}")]
+    [HttpDelete("{id}")]
     [Authorize]
     public async Task<IActionResult> Remove(int id) {
         var username = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)!.Value;

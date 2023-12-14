@@ -18,9 +18,9 @@ const TaskList = () => {
     
     return <>
         {tasks.map(t => (
-            <Task key={t.id.toString()} task={t} />
+            <Task key={t.id.toString()} task={t} onTasksUpdated={newTasks => setTasks(newTasks)} />
         ))}
-        <NewTask />
+        <NewTask onAdded={newTasks => setTasks(newTasks)}/>
     </>
 }
 
