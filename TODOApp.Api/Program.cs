@@ -8,6 +8,8 @@ public class Program {
     public static void Main(string[] args) {
         var builder = WebApplication.CreateBuilder(args);
 
+        builder.Services.AddCors();
+
         // Add services to the container.
 
         builder.Services.AddDbContext<DataContext>(options => {
@@ -52,6 +54,11 @@ public class Program {
             app.UseSwagger();
             app.UseSwaggerUI();
         }
+
+        app.UseCors(builder => builder
+                                .AllowAnyOrigin()
+                                .AllowAnyMethod()
+                                .AllowAnyHeader());
 
         app.UseHttpsRedirection();
 
