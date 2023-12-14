@@ -8,18 +8,20 @@ const App = () => {
 
     let [loggedIn, setLoggedIn] = useState(false)
 
-    useEffect(() => {
+    const fetchToken = () => {
         const token = Cookies.get('jwt')
-
+        
         if (token) {
             api.defaults.headers.common = { 'Authorization': `Bearer ${token}` }
         }
-
+        
         setLoggedIn(!!token)
-    }, [])
+    }
+
+    useEffect(fetchToken, [])
 
     return <>
-        { loggedIn ? <TaskList /> : <Login /> }
+        { loggedIn ? <TaskList /> : <Login onLogin={fetchToken} /> }
     </>
 }
 

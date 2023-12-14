@@ -1,9 +1,12 @@
-import { FormEvent, useState } from "react"
+import { ComponentProps, FormEvent, useState } from "react"
 import api from "../api/axios"
 import Cookies from "js-cookie"
 
+interface LoginProps extends ComponentProps<"div"> {
+    onLogin: () => void
+}
 
-const Login = () => {
+const Login = (props: LoginProps) => {
     // const usernameRef = useRef(null);
 
     const [failed, setFailed] = useState(false)
@@ -26,7 +29,7 @@ const Login = () => {
             
             const token = resp.data as string
             Cookies.set('jwt', token)
-            console.log(Cookies.get('jwt'));
+            props.onLogin()
         } catch (e) {
             setFailed(true)            
         }

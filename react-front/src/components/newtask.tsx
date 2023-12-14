@@ -8,7 +8,7 @@ const NewTask = () => {
     }
 
     return <>
-        <input type="button" value="Hello" onClick={click}/>
+        <input type="button" value="New task" onClick={click}/>
     </>
 }
 
