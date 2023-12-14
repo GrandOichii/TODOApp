@@ -10,7 +10,6 @@ const NewTask = (props: NewTaskProps) => {
     const onSubmit = async (e: FormEvent) => {
         e.preventDefault()
 
-        // TODO
         const target = e.target as typeof e.target & {
             title: { value: string },
             description: { value: string },
@@ -20,8 +19,11 @@ const NewTask = (props: NewTaskProps) => {
             title: target.title.value,
             description: target.description.value
         })
-        
+
         props.onAdded(resp.data)
+
+        target.title.value = ''
+        target.description.value = ''
     }
 
     return <form onSubmit={onSubmit} style={{padding: 5}}>
