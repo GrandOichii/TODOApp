@@ -32,7 +32,7 @@ public class SubtasksService : ISubtasksService
         return _mapper.Map<GetUserTask>(task);
     }
 
-    public async Task<GetUserTask> SetCompleted(CompleteSubtask subtask, string username)
+    public async Task<GetSubtask> SetCompleted(CompleteSubtask subtask, string username)
     {
         var taskId = subtask.TaskID;
         var user = _ctx.Users.Include(u => u.Tasks).ThenInclude(task => task.Subtasks).First(u => u.Username == username);
@@ -45,6 +45,6 @@ public class SubtasksService : ISubtasksService
         sub.Completed = subtask.Completed;
         await _ctx.SaveChangesAsync();
 
-        return _mapper.Map<GetUserTask>(task);
+        return _mapper.Map<GetSubtask>(sub);
     }
 }
