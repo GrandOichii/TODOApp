@@ -1,7 +1,7 @@
 import { ChangeEvent, ComponentProps, useState } from "react"
 import api from "../api"
 import CheckBox from '@react-native-community/checkbox';
-import { View, Text } from "react-native"
+import { View, Text, TouchableOpacity } from "react-native"
 
 
 const Subtask = (props) => {
@@ -16,9 +16,15 @@ const Subtask = (props) => {
         setSubtask(resp.data)
     }
 
+    const handlePress = () => {
+        
+    }
+
     return <View style={subtask.completed ? {} : {backgroundColor: "#F5B7B1"}}>
         {/* <CheckBox value={subtask.completed} onValueChange={v => setCompleted(v)}/> */}
-        <Text>{subtask.title}</Text>
+        <TouchableOpacity onPress={handlePress}>
+            <Text>{subtask.title}</Text>
+        </TouchableOpacity>
         
     </View>
 }
