@@ -13,7 +13,9 @@ const Home = () => {
         setLoggedIn(!!token)
     }
 
-    useEffect(() => checkAuth(), [])    
+    useEffect(() => {
+        checkAuth()
+    }, [])    
 
     return (
         <View>

@@ -1,6 +1,8 @@
 import { useRef, useState } from "react";
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import * as SecureStore from "expo-secure-store";
+
 import api from '../api'
 
 const TextInputStyle = { 
@@ -8,7 +10,7 @@ const TextInputStyle = {
     borderWidth: 1 
 }
 
-const Login = () => {
+const Login = (props) => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -21,8 +23,10 @@ const Login = () => {
                 password: password
             })
             setFailed(false)
-            console.log(resp.data);
+            await SecureStore.setItemAsync('jwt_token', resp.data)
+            props.onLogin()
         } catch (e) {
+            // throw e
             setFailed(true)
         }
     }
