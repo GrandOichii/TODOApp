@@ -3,9 +3,7 @@ import { Text } from 'react-native';
 
 const Layout = () => {
     return <>
-        <Text>TOP</Text>
         <Stack />
-
     </> 
 }
 
