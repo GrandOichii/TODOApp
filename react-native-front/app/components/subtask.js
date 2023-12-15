@@ -16,8 +16,6 @@ const Subtask = (props) => {
         setSubtask(resp.data)
     }
 
-    console.log(subtask);
-
     return <View style={subtask.completed ? {} : {backgroundColor: "#F5B7B1"}}>
         {/* <CheckBox value={subtask.completed} onValueChange={v => setCompleted(v)}/> */}
         <Text>{subtask.title}</Text>

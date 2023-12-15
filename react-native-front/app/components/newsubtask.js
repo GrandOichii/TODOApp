@@ -12,11 +12,13 @@ const NewSubtask = (props) => {
             taskID: props.task.id
         })
         props.onUpdated(resp.data)
+
+        setTitle('')
     }
 
     return <View style={{flexDirection: "row"}}>
-        <TextInput placeholder="Subtask" onChangeText={text => setTitle(text)}/>
-        <TouchableOpacity onPress={handlePress}>
+        <TextInput placeholder="Subtask" onChangeText={text => setTitle(text)} value={title} style={{width: '100%'}} />
+        <TouchableOpacity onPress={handlePress} style={{width: "auto"}}>
             <Text>Add</Text>
         </TouchableOpacity>
     </View>

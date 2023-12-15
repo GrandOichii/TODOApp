@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { TextInput, TouchableOpacity, View, Text } from "react-native"
 import api from "../api"
 
@@ -8,6 +8,8 @@ const NewTaskForm = (props) => {
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
 
+    const titleRef = useRef(null)
+
     const handlePress = async () => {
         const resp = await api.post('/api/tasks/create', {
             title: title,
@@ -16,13 +18,13 @@ const NewTaskForm = (props) => {
 
         props.onAdded(resp.data)
 
-        // target.title.value = ''
-        // target.description.value = ''
+        setTitle('')
+        setDescription ('')
     }
 
     return <View>
-        <TextInput placeholder="Title" onChangeText={text => setTitle(text)}/>
-        <TextInput multiline={true} placeholder="Description" onChangeText={text => setDescription(text)}/>    
+        <TextInput placeholder="Title" onChangeText={text => setTitle(text)} value={title}/>
+        <TextInput multiline={true} placeholder="Description" onChangeText={text => setDescription(text)} value={description}/>    
         <TouchableOpacity onPress={handlePress}>
             <Text>Add task</Text>
         </TouchableOpacity>
