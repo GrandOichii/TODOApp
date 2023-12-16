@@ -7,21 +7,16 @@ import { View, Text, TouchableOpacity } from "react-native"
 const Subtask = (props) => {
     const [subtask, setSubtask] = useState(props.subtask)
 
-    const setCompleted = async (newValue) => {
+    const handlePress = async () => {
         const resp = await api.patch('/api/tasks/subtask/setcompleted', {
             subtaskID: subtask.id,
             taskID: props.ownerTaskID,
-            completed: newValue
+            completed: !subtask.completed
         })
         setSubtask(resp.data)
     }
 
-    const handlePress = () => {
-        
-    }
-
     return <View style={subtask.completed ? {} : {backgroundColor: "#F5B7B1"}}>
-        {/* <CheckBox value={subtask.completed} onValueChange={v => setCompleted(v)}/> */}
         <TouchableOpacity onPress={handlePress}>
             <Text>{subtask.title}</Text>
         </TouchableOpacity>
