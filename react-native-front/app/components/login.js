@@ -1,6 +1,5 @@
 import { useRef, useState } from "react";
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import * as SecureStore from "expo-secure-store";
 
 import api from '../api'
@@ -31,14 +30,14 @@ const Login = (props) => {
         }
     }
 
-    return <SafeAreaView>
+    return <View>
         <TextInput onChangeText={value => setUsername(value)} placeholder="Username" style={TextInputStyle} />
         <TextInput onChangeText={value => setPassword(value)} placeholder="Password" style={TextInputStyle} />
         <TouchableOpacity onPress={handlePress}>
             <Text>Login</Text>
         </TouchableOpacity>
         { failed && <Text style={{color: 'red'}}>Failed to log in</Text>}
-    </SafeAreaView>
+    </View>
 }
 
 export default Login

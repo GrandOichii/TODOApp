@@ -3,6 +3,8 @@ import Login from "./components/login";
 import * as SecureStore from "expo-secure-store";
 import { useEffect, useState } from "react";
 import TaskList from "./components/tasklist";
+import { SafeAreaView } from "react-native-safe-area-context";
+
 import api from "./api";
 
 const Home = () => {
@@ -20,20 +22,11 @@ const Home = () => {
         setLoggedIn(!!token)
     }
 
-    const handlePress = async () => {
-        await SecureStore.deleteItemAsync('jwt_token')
-        checkAuth()
-    }
 
     return (
-        <View>
-            {/* { loggedIn ? <Login /> : <TaskList />} */}
-            { loggedIn ? <TaskList /> : <Login onLogin={() => checkAuth()}/>}
-            <TouchableOpacity onPress={handlePress}>
-                <Text>Reset JWT</Text>
-            </TouchableOpacity>
-
-        </View>
+        <SafeAreaView>
+            { loggedIn ? <TaskList checkAuth={checkAuth} /> : <Login onLogin={() => checkAuth()}/> }
+        </SafeAreaView>
     )
 }
 
