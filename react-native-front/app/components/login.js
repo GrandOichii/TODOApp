@@ -13,30 +13,51 @@ const Login = (props) => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [failed, setFailed] = useState(false)
+    const [failedMessage, setFailedMessage] = useState('')
 
-    const handlePress = async () => {
+    const handleLogin = async () => {
         try {
             const resp = await api.post('/api/users/login', {
                 username: username, 
                 password: password
             })
-            setFailed(false)
+            setFailedMessage('')
             await SecureStore.setItemAsync('jwt_token', resp.data)
             props.onLogin()
         } catch (e) {
             // throw e
-            setFailed(true)
+            setFailedMessage('Failed to log in')
         }
+    }
+    
+    const handleRegister = async () => {
+        try {
+            const data = {
+                username: username, 
+                password: password
+
+            }
+            await api.post('/api/users/register', data)
+        } catch (e) {
+            console.log(e);
+            setFailedMessage('Failed to register')
+            return
+        }
+        await handleLogin()
     }
 
     return <View>
         <TextInput onChangeText={value => setUsername(value)} placeholder="Username" style={TextInputStyle} />
         <TextInput onChangeText={value => setPassword(value)} placeholder="Password" style={TextInputStyle} />
-        <TouchableOpacity onPress={handlePress}>
-            <Text>Login</Text>
-        </TouchableOpacity>
-        { failed && <Text style={{color: 'red'}}>Failed to log in</Text>}
+        <View style={{justifyContent: 'space-around', flexDirection: 'row'}}>
+            <TouchableOpacity onPress={handleLogin}>
+                <Text>Login</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleRegister}>
+                <Text>Register</Text>
+            </TouchableOpacity>
+        </View>
+        { failedMessage !== '' && <Text style={{color: 'red'}}>{failedMessage}</Text>}
     </View>
 }
 
