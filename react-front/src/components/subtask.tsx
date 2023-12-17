@@ -10,7 +10,6 @@ const Subtask = (props: SubtaskProps) => {
     const [subtask, setSubtask] = useState(props.subtask)
 
     const setCompleted = async (e: ChangeEvent<HTMLInputElement>) => {
-        console.log(e.target.checked);
         const resp = await api.patch('/api/tasks/subtask/setcompleted', {
             subtaskID: subtask.id,
             taskID: props.ownerTaskID,

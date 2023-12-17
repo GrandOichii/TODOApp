@@ -1,8 +1,8 @@
 import { useRef, useState } from "react";
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
-import * as SecureStore from "expo-secure-store";
 
 import api from '../api'
+import { setStored } from "../storage";
 
 const TextInputStyle = { 
     borderColor: 'black', 
@@ -24,7 +24,7 @@ const Login = (props) => {
                 password: password
             })
             setFailedMessage('')
-            await SecureStore.setItemAsync('jwt_token', resp.data)
+            await setStored('jwt_token', resp.data)
             props.onLogin()
         } catch (e) {
             // throw e
@@ -44,7 +44,6 @@ const Login = (props) => {
             await api.post('/api/users/register', data)
         } catch (e) {
             setIsProcessing(false)
-            console.log(e);
             setFailedMessage('Failed to register')
             return
         }

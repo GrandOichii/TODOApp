@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react"
 import { Text, View, TouchableOpacity } from "react-native"
-import * as SecureStore from "expo-secure-store";
 
 import api from "../api"
 import Task from "./task"
 import NewTaskForm from "./newtask"
+import { unsetStored } from "../storage"
 
 const TaskList = (props) => {
 
@@ -21,7 +21,7 @@ const TaskList = (props) => {
     }, [])
 
     const handlePress = async () => {
-        await SecureStore.deleteItemAsync('jwt_token')
+        await unsetStored('jwt_token')
         props.checkAuth()
     }
     
