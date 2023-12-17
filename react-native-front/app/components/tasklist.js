@@ -30,8 +30,8 @@ const TaskList = (props) => {
             <Task key={t.id.toString()} task={t} onTasksUpdated={newTasks => setTasks(newTasks)} />
         ))}
         <NewTaskForm onAdded={newTasks => setTasks(newTasks)}/>
-        <TouchableOpacity onPress={handlePress}>
-            <Text>Reset JWT</Text>
+        <TouchableOpacity onPress={handlePress} style={{}}>
+            <Text>Logout</Text>
         </TouchableOpacity>
     </View>
 }

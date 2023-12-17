@@ -14,9 +14,11 @@ const Login = (props) => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [failedMessage, setFailedMessage] = useState('')
+    const [isProcessing, setIsProcessing] = useState(false)
 
     const handleLogin = async () => {
         try {
+            setIsProcessing(true)
             const resp = await api.post('/api/users/login', {
                 username: username, 
                 password: password
@@ -28,10 +30,12 @@ const Login = (props) => {
             // throw e
             setFailedMessage('Failed to log in')
         }
+        setIsProcessing(false)
     }
     
     const handleRegister = async () => {
         try {
+            setIsProcessing(true)
             const data = {
                 username: username, 
                 password: password
@@ -39,6 +43,7 @@ const Login = (props) => {
             }
             await api.post('/api/users/register', data)
         } catch (e) {
+            setIsProcessing(false)
             console.log(e);
             setFailedMessage('Failed to register')
             return
@@ -50,10 +55,10 @@ const Login = (props) => {
         <TextInput onChangeText={value => setUsername(value)} placeholder="Username" style={TextInputStyle} />
         <TextInput onChangeText={value => setPassword(value)} placeholder="Password" style={TextInputStyle} />
         <View style={{justifyContent: 'space-around', flexDirection: 'row'}}>
-            <TouchableOpacity onPress={handleLogin}>
+            <TouchableOpacity disabled={isProcessing} onPress={handleLogin}>
                 <Text>Login</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={handleRegister}>
+            <TouchableOpacity disabled={isProcessing} onPress={handleRegister}>
                 <Text>Register</Text>
             </TouchableOpacity>
         </View>
